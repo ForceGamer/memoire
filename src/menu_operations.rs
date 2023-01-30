@@ -1,3 +1,4 @@
+use std::io;
 use crate::colors::*;
 
 pub struct Menu {
@@ -18,5 +19,19 @@ pub fn open_menu(menu:&Menu) {
     for (i, el) in menu.choices.iter().enumerate() {
         println!("{} {el}", i+1);
     }
-    println!("\nSelect>\n1");
+    let input = get_input("Select:");
+    let input:u8 = input.trim()
+        .parse()
+        .expect("Not a number!"); //TODO: Better error handling
+}
+
+pub fn get_input(prompt:&str) -> String {
+    if prompt.len() > 0 {
+        println!("{prompt}");
+    }
+    let mut input = String::new();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Whoah there!"); //TODO: Better error handling
+    return input;
 }

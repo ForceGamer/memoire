@@ -3,6 +3,7 @@ use std::time::Instant;
 use rand::Rng;
 
 use crate::colors::*;
+use crate::menu_operations::get_input;
 
 pub fn start() {
     let green:&str = &green() as &str;
@@ -30,11 +31,8 @@ pub fn start() {
                 print!("{}", &display);
             }
             print!("\n");
-            println!("Answer:");
-            let mut input = String::new();
-            io::stdin()
-                .read_line(&mut input)
-                .expect("Whoah there!");
+
+            let mut input = get_input("Answer:");
             // Check for Stop
             if input.starts_with("s") {
                 stop = true;
@@ -42,7 +40,7 @@ pub fn start() {
             } else {
                 let input:u8 = input.trim()
                     .parse()
-                    .expect("Not a number!");
+                    .expect("Not a number!"); //TODO: Better error handling
 
                 // Correct
                 if input == count {
@@ -56,7 +54,7 @@ pub fn start() {
                     println!("{red}Incorrect{endcolor}");
                 }
             }
-            if (successes + fails) == (30 - 1) {
+            if (successes + fails) >= (30 - 1) {
                 stop = true;
             }
         }
@@ -73,5 +71,6 @@ pub fn start() {
     } else {
         println!("{green}You answered everything correctly!!{endcolor}")
     }
-    println!("Score: {}", (successes - fails) as u64 * 4 / elapsed); // Casting (successes - fails) from u8 to u64 to comply with :elapsed: and avoiding integer overflows
+    println!("Score: {:.2}", (successes - fails) as f32 * 10.0 / elapsed as f32); // Casting to f64 to provide a higher precision score
+    //This panics sometimes and I'm not sure why...
 }
