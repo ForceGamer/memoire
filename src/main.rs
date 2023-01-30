@@ -8,5 +8,5 @@ mod menus;
 
 fn main() {
     open_menu(&main_menu());
-    repeat_game::start();
+    //repeat_game::start();
 }
