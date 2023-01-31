@@ -32,9 +32,18 @@ pub fn open_menu(menu:&Menu) {
 
         let input = parse_int(input);
         match input {
-            1 => { repeat_game::start() }
+            1 => { action("repeat_game") } //TODO: Change to use dynamic data
             _ => { println!("{}Invalid selection{}", red(), endcolor()) }
         }
+    }
+}
+
+pub fn action(action:&str) {
+    match action.to_lowercase().trim() {
+        "repeat_game" => {repeat_game::start()}
+        "lorem_ipsum" => {}
+        "deez_nuts" => {}
+        _ => {return}
     }
 }
 
